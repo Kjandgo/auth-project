@@ -1,0 +1,21 @@
+server:
+  port: 8082
+
+spring:
+  application:
+    name: auth-server
+  datasource:
+    driver-class-name: org.mariadb.jdbc.Driver
+    url: jdbc:mariadb://localhost:3306/auth
+    username: swcamp
+    password: swcamp
+  data:
+    redis:
+      host: localhost
+      port: 6379
+
+token:
+  access_secret: kqyT0btD7P3QA8RnLEtYdOY0vJdeKmo7fsL8bhfd+ICGmaOpYJQm5rUFkrJe9L/dULZUYuqE6DRkCuJt3hjDVQ==
+  refresh_secret: JAJh5KPGaZ27mWSIm88QgafVMAlqpjeGEozhUsEDlmflx3tpCUHmtXOogzWSSA6UxFQdUiRMH8uagHRKGpf9Ag==
+  access_expiration_time: 86400000
+  refresh_expiration_time: 604800000

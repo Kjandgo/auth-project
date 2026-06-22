@@ -83,7 +83,7 @@ public class AuthenticationFilter extends UsernamePasswordAuthenticationFilter {
         log.info("List<String> 형태로 뽑아낸 로그인 한 회원의 권한들 : {}", roles);
 
         // JWT 토큰 발행
-        Claims claims = Jwts.claims().setSubject(id);
+        Claims claims = Jwts.claims().setSubject(id).build();
         claims.put("auth", roles);
 
         // 엑세스 토큰

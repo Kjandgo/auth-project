@@ -1,7 +1,7 @@
 package com.kjandgo.authproject.security;
 
-import com.devoops.rentalbrain.employee.command.dto.UserImpl;
-import com.devoops.rentalbrain.employee.command.service.EmployeeCommandService;
+import com.kjandgo.authproject.member.command.dto.UserImpl;
+import com.kjandgo.authproject.member.command.service.MemberCommandService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -15,12 +15,12 @@ import org.springframework.stereotype.Component;
 @Component
 @Slf4j
 public class JwtAuthenticationProvider implements AuthenticationProvider {
-    private final EmployeeCommandService employeeCommandService;
+    private final MemberCommandService memberCommandService;
     private final PasswordEncoder passwordEncoder;
 
-    public JwtAuthenticationProvider(EmployeeCommandService employeeCommandService,
+    public JwtAuthenticationProvider(MemberCommandService memberCommandService,
                                      PasswordEncoder passwordEncoder) {
-        this.employeeCommandService = employeeCommandService;
+        this.memberCommandService = memberCommandService;
         this.passwordEncoder = passwordEncoder;
     }
 
@@ -30,7 +30,7 @@ public class JwtAuthenticationProvider implements AuthenticationProvider {
         String pwd = authentication.getCredentials().toString();
 
         // DB 로부터 사용자 정보 조회(UserDetails 객체로 반환)
-        UserDetails userDetails = employeeCommandService.loadUserByUsername(empId);
+        UserDetails userDetails = memberCommandService.loadUserByUsername(empId);
         // BCrypt 암호 매칭
         if(!passwordEncoder.matches(pwd, userDetails.getPassword())){
             UserImpl userImpl = (UserImpl) userDetails;
