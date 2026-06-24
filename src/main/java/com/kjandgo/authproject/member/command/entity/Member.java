@@ -4,7 +4,7 @@ import jakarta.persistence.*;
 import lombok.*;
 
 @Entity
-@Table(name="Member")
+@Table(name="member")
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
@@ -27,7 +27,7 @@ public class Member {
     @Column
     private String recentLoginDate;
     @Column
-    private String status;
+    private Character status;
     @Column
     private String profileImage;
 

@@ -26,11 +26,11 @@ public class JwtAuthenticationProvider implements AuthenticationProvider {
 
     @Override
     public Authentication authenticate(Authentication authentication) throws AuthenticationException {
-        String empId = authentication.getName();
+        String memberId = authentication.getName();
         String pwd = authentication.getCredentials().toString();
 
         // DB 로부터 사용자 정보 조회(UserDetails 객체로 반환)
-        UserDetails userDetails = memberCommandService.loadUserByUsername(empId);
+        UserDetails userDetails = memberCommandService.loadUserByUsername(memberId);
         // BCrypt 암호 매칭
         if(!passwordEncoder.matches(pwd, userDetails.getPassword())){
             UserImpl userImpl = (UserImpl) userDetails;

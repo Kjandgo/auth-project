@@ -2,6 +2,7 @@ package com.kjandgo.authproject.security;
 
 
 import com.kjandgo.authproject.member.command.dto.LoginDTO;
+import com.kjandgo.authproject.member.command.dto.UserImpl;
 import com.kjandgo.authproject.member.command.service.MemberCommandService;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
@@ -129,18 +130,13 @@ public class AuthenticationFilter extends UsernamePasswordAuthenticationFilter {
         Map<String, Object> responseBody = new LinkedHashMap<>();
         responseBody.put("success", "로그인 성공");
         responseBody.put("id", user.getId());
-        responseBody.put("employeeCode", user.getEmployeeCode());
-        responseBody.put("empId", user.getEmpId());
+        responseBody.put("username", user.getUserName());
         responseBody.put("name", user.getName());
-        responseBody.put("phone", user.getPhone());
         responseBody.put("email", user.getEmail());
-        responseBody.put("addr", user.getAddr());
-        responseBody.put("gender", user.getGender());
+        responseBody.put("signupdate", user.getSignUpDate());
+        responseBody.put("recentlogindate", user.getRecentLoginDate());
         responseBody.put("status", user.getStatus());
-        responseBody.put("dept", user.getDept());
-        responseBody.put("hireDate", user.getHireDate());
-        responseBody.put("resignDate", user.getResignDate());
-        responseBody.put("positionId", user.getPositionId());
+        responseBody.put("profileimage", user.getProfileImage());
         responseBody.put("roles", roles);
         responseBody.put("accessToken", accessToken);
 
@@ -155,7 +151,7 @@ public class AuthenticationFilter extends UsernamePasswordAuthenticationFilter {
 
         // 로그인 이력 저장
         String ipAddress = getClientIp(request);
-        employeeCommandService.saveLoginHistory(user.getId(), ipAddress, 'Y');
+        memberCommandService.saveLoginHistory(user.getId(), ipAddress, 'Y');
     }
 
 
@@ -171,7 +167,7 @@ public class AuthenticationFilter extends UsernamePasswordAuthenticationFilter {
             response.getWriter().write("{\"error\": \"" + failed.getMessage().split(",")[0] + "\"}");
             Long id = Long.parseLong(failed.getMessage().split(",")[1]);
             String ipAddress = getClientIp(request);
-            employeeCommandService.saveLoginHistory(id, ipAddress, 'N');      // 실패했을때 비밀번호 불일치 Exception 일 시 실패한 id 값을 이력에 저장
+            memberCommandService.saveLoginHistory(id, ipAddress, 'N');      // 실패했을때 비밀번호 불일치 Exception 일 시 실패한 id 값을 이력에 저장
         } else {
             response.getWriter().write("{\"error\": \"" + failed.getMessage() + "\"}");
         }

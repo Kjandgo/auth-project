@@ -18,7 +18,7 @@ public class UserImpl extends User {
     private String email;
     private String signUpDate;
     private String recentLoginDate;
-    private String status;
+    private Character status;
     private String profileImage;
 
     public UserImpl(String username, @Nullable String password, Collection<? extends GrantedAuthority> authorities) {
@@ -26,6 +26,14 @@ public class UserImpl extends User {
     }
 
     public void setUserInfo(UserDetailInfoDTO userInfo){
-
+        this.id = userInfo.getId();
+        this.userName = userInfo.getUserName();
+        this.password = userInfo.getPassword();
+        this.name = userInfo.getName();
+        this.email = userInfo.getEmail();
+        this.signUpDate = userInfo.getSignUpDate();
+        this.recentLoginDate = userInfo.getRecentLoginDate();
+        this.status = userInfo.getStatus();
+        this.profileImage = userInfo.getProfileImage();
     }
 }

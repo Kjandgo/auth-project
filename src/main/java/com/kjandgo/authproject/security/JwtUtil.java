@@ -1,6 +1,6 @@
 package com.kjandgo.authproject.security;
 
-import com.devoops.rentalbrain.employee.command.service.EmployeeCommandService;
+import com.kjandgo.authproject.member.command.service.MemberCommandService;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
@@ -21,17 +21,17 @@ public class JwtUtil {
     private final Key key;
     private final Key refreshKey;
     private final Environment env;
-    private final EmployeeCommandService employeeCommandService;
+    private final MemberCommandService memberCommandService;
 
     public JwtUtil(@Value("${token.access_secret}")String key,
                    @Value("${token.refresh_secret}")String refreshToken,
-                   EmployeeCommandService employeeCommandService,
+                   MemberCommandService memberCommandService,
                    Environment env){
         byte[] keyBytes = Decoders.BASE64.decode(key);
         byte[] refreshKeyBytes = Decoders.BASE64.decode(refreshToken);
         this.key = Keys.hmacShaKeyFor(keyBytes);
         this.refreshKey = Keys.hmacShaKeyFor(refreshKeyBytes);
-        this.employeeCommandService = employeeCommandService;
+        this.memberCommandService = memberCommandService;
         this.env = env;
     }
 
@@ -44,7 +44,7 @@ public class JwtUtil {
         Claims claims = Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(token).getBody();
 
         // 토큰에 들어있던 emp_id로 유효성 검증
-        UserDetails userDetails = employeeCommandService.loadUserByUsername(claims.getSubject());
+        UserDetails userDetails = memberCommandService.loadUserByUsername(claims.getSubject());
 //        log.info("userDetails: {}",userDetails.getUsername());
 //        log.info("userDetails: {}",userDetails.getAuthorities());
 
